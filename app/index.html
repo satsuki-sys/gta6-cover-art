@@ -3,20 +3,96 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Cover Snap</title>
+<title>Neon Coast Studio — multi-panel cover maker</title>
 <link rel="stylesheet" href="./style.css">
 </head>
 <body>
-<main class="app">
-  <section class="controls">
-    <h1>Cover Snap</h1>
-    <p>A photo and a caption, made into a square cover.</p>
-    <label>Photo <input id="photo" type="file" accept="image/*"></label>
-    <label>Caption <input id="caption" type="text" maxlength="40" value="Sunset Heist"></label>
-    <button id="export" type="button">Export PNG 1080 x 1080</button>
-    <p id="status" role="status"></p>
+<main class="app" id="appShell">
+  <aside class="controls">
+    <header>
+      <h1>Neon Coast Studio</h1>
+      <p>Your photos in, a multi-panel Vice-sunset cover out. Everything stays on this machine.</p>
+    </header>
+
+    <section>
+      <h2>1 · Photos</h2>
+      <label class="fileBtn">Add your photos
+        <input id="photoInput" type="file" accept="image/*" multiple hidden>
+      </label>
+      <div class="strip" id="photoStrip">
+        <button class="thumb" type="button" data-photo="0"><img src="./samples/boulevard.jpg" alt="Boulevard sample photo"><span>Boulevard</span></button>
+        <button class="thumb" type="button" data-photo="1"><img src="./samples/pier.jpg" alt="Pier sample photo"><span>Pier</span></button>
+        <button class="thumb" type="button" data-photo="2"><img src="./samples/neon-drive.jpg" alt="Neon Drive sample artwork"><span>Neon Drive</span></button>
+      </div>
+      <p class="note">Tap a photo to fill the selected panel.</p>
+      <div class="row">
+        <button id="onePhoto" type="button">One photo, every panel</button>
+        <button id="mixPhotos" type="button">Mix the photos</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>2 · Layout &amp; grade</h2>
+      <div class="seg" id="layoutSeg">
+        <button type="button" data-layout="grid" class="on">Vice Grid</button>
+        <button type="button" data-layout="stack">Poster Stack</button>
+        <button type="button" data-layout="trio">Hero Trio</button>
+        <button type="button" data-layout="quad">Four Corners</button>
+      </div>
+      <div class="seg" id="gradeSeg">
+        <button type="button" data-grade="sunset" class="on">Vice Sunset</button>
+        <button type="button" data-grade="neon">Neon Night</button>
+        <button type="button" data-grade="day">Chrome Day</button>
+        <button type="button" data-grade="mono">Mono Heat</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>3 · Panel framing</h2>
+      <div class="panelList" id="panelList"></div>
+      <label>Zoom <input id="zoom" type="range" min="60" max="300" value="112"><span id="zoomVal">112%</span></label>
+      <label>Move across <input id="offX" type="range" min="-60" max="60" value="0"><span id="offXVal">0</span></label>
+      <label>Move down <input id="offY" type="range" min="-60" max="60" value="0"><span id="offYVal">0</span></label>
+      <div class="seg" id="fitSeg">
+        <button type="button" data-fit="fill" class="on">Fill panel</button>
+        <button type="button" data-fit="fit">Whole photo</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>4 · Lettering</h2>
+      <label>Title <input id="titleInput" type="text" maxlength="26" value="Neon Coast"></label>
+      <label>Caption <input id="captionInput" type="text" maxlength="34" value="Vice Heat"></label>
+      <div class="seg" id="posSeg">
+        <button type="button" data-pos="bottom" class="on">Title at foot</button>
+        <button type="button" data-pos="top">Title at top</button>
+      </div>
+      <div class="seg" id="colorSeg">
+        <button type="button" data-color="sunset" class="on">Sunset</button>
+        <button type="button" data-color="ice">Ice</button>
+        <button type="button" data-color="neon">Neon</button>
+        <button type="button" data-color="gold">Gold</button>
+        <button type="button" data-color="white">White</button>
+      </div>
+    </section>
+
+    <section>
+      <h2>5 · Export</h2>
+      <div class="seg" id="sizeSeg">
+        <button type="button" data-size="1080x1080">Square 1080×1080</button>
+        <button type="button" data-size="1080x1350" class="on">Portrait 1080×1350</button>
+        <button type="button" data-size="1920x1080">Wide 1920×1080</button>
+      </div>
+      <button id="exportBtn" class="primary" type="button">Export PNG</button>
+      <button id="exportAllBtn" type="button">Export all three sizes</button>
+      <p id="status" role="status"></p>
+    </section>
+  </aside>
+
+  <section class="stage">
+    <canvas id="cover" width="1080" height="1350" aria-label="Cover preview"></canvas>
+    <p class="hint">Click a panel to select it · drag on the cover to reposition · scroll to zoom</p>
   </section>
-  <canvas id="cover" width="1080" height="1080" aria-label="The cover"></canvas>
 </main>
 <script type="module" src="./src/main.js"></script>
 </body>
